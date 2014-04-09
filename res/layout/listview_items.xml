@@ -1,0 +1,129 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/scrollview" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        tools:context=".ItemsActivity" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#3b3b3b"
+            android:text="Tops"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layoutTops"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="left"
+            android:orientation="horizontal" >
+
+            <Gallery
+                android:id="@+id/galleryTops"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#3b3b3b"
+            android:text="Bags"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        
+
+        <LinearLayout
+            android:id="@+id/layoutBags"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="left"
+            android:orientation="horizontal" >
+
+            <Gallery
+                android:id="@+id/galleryBags"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#3b3b3b"
+            android:text="Shoes"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layoutShoes"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Gallery
+                android:id="@+id/galleryShoes"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#3b3b3b"
+            android:text="Trousers"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layoutTrousers"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Gallery
+                android:id="@+id/galleryTrousers"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchMode="columnWidth" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#3b3b3b"
+            android:text="Skirts"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layoutSkirts"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Gallery
+                android:id="@+id/gallerySkirts"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchMode="columnWidth"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

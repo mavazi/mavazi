@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mavazi"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.hardware.camera.autofocus" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/mane"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.mavazi.LoadActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mavazi.ItemListActivity"
+            android:label="@string/title_item_list"
+            android:screenOrientation="portrait" >
+        </activity>
+       
+        <activity
+            android:name="com.mavazi.MainActivity"
+            android:label="@string/title_item_list" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="CustomGalleryActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name=".ACTION_PICK" />
+                <action android:name=".ACTION_MULTIPLE_PICK" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mavazi.ItemDetailActivity"
+            android:label="@string/title_item_detail"
+            android:parentActivityName="com.mavazi.ItemListActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ItemListActivity" />
+        </activity>
+        <activity
+            android:name="com.mavazi.ItemsActivity"
+            android:label="@string/title_activity_items" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.mavazi.ItemsTwo"
+            android:label="Items" >
+        </activity>
+        <activity
+            android:name="com.mavazi.OutfitsActivity"
+            android:label="@string/title_activity_outfits"
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>
