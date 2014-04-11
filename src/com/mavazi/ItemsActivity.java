@@ -2,8 +2,6 @@ package com.mavazi;
 
 import java.io.File;
 
-
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,11 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -132,474 +126,485 @@ public class ItemsActivity extends Activity {
 
 			fileTops = new File(TOPS_DIR);
 			fileTops.mkdirs();
+
+			showBags();
+			showShoes();
+			showTrousers();
+			showTops();
+			showSkirts();
+
+			adapter = new ImageAdapter(this, FilePathStrings, FileNameStrings);
+			gallery.setSpacing(3);
+			gallery.setAdapter(adapter);
+
+			gallery.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					final Dialog dialog = new Dialog(ItemsActivity.this);
+					try {
+						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialog.getWindow().setBackgroundDrawableResource(
+								android.R.color.transparent);
+						dialog.setContentView(R.layout.zoom_zoom);
+						ImageView imageview = (ImageView) dialog
+								.findViewById(R.id.imageView1);
+
+						Bitmap bmp = BitmapFactory
+								.decodeFile(FilePathStrings[arg2]);
+						// Bitmap bmpShoe =
+						// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
+						imageview.setImageBitmap(bmp);
+						imageview
+								.setOnLongClickListener(new OnLongClickListener() {
+
+									@Override
+									public boolean onLongClick(View v) {
+										AlertDialog.Builder alertDialogBuilderDelete = new AlertDialog.Builder(
+												ItemsActivity.this);
+
+										// set title
+										alertDialogBuilderDelete
+												.setTitle("Delete Image");
+
+										// set dialog message
+										alertDialogBuilderDelete
+												.setMessage(
+														"Delete this image?")
+												.setCancelable(false)
+												.setPositiveButton(
+														"Yes",
+														new DialogInterface.OnClickListener() {
+															public void onClick(
+																	DialogInterface dialog,
+																	int id) {
+																// if this
+																// button is
+																// clicked,
+																// close
+																// current
+																// activity
+																File toBeDeleted = new File(
+																		FilePathStrings[arg2]);
+
+																deleteImage(toBeDeleted);
+																;
+															}
+														})
+
+												.setNegativeButton(
+														"No!",
+														new DialogInterface.OnClickListener() {
+															public void onClick(
+																	DialogInterface dialog,
+																	int id) {
+																// if this
+																// button is
+																// clicked, just
+																// close
+																// the dialog
+																// box and do
+																// nothing
+																dialog.cancel();
+															}
+														});
+
+										// create alert dialog
+										AlertDialog alertDialogDelete = alertDialogBuilderDelete
+												.create();
+
+										// show it
+										alertDialogDelete.show();
+
+										return true;
+
+									}
+								});
+
+						dialog.show();
+					} catch (OutOfMemoryError e) {
+
+						e.printStackTrace();
+						if (bmp != null && bmp.isRecycled()) {
+							bmp.recycle();
+							bmp = null;
+						}
+					}
+				}
+			});
+
+			// //////////////
+			adaptershoes = new ImageAdapterShoe(this, FilePathStringsS,
+					FileNameStringsS);
+			galleryShoes.setSpacing(3);
+			galleryShoes.setAdapter(adaptershoes);
+			galleryShoes.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					final Dialog dialogS = new Dialog(ItemsActivity.this);
+					try {
+						dialogS.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialogS.getWindow().setBackgroundDrawableResource(
+								android.R.color.transparent);
+						dialogS.setContentView(R.layout.zoom_zoom);
+						ImageView imageS = (ImageView) dialogS
+								.findViewById(R.id.imageView1);
+
+						Bitmap bmpS = BitmapFactory
+								.decodeFile(FilePathStringsS[arg2]);
+						imageS.setImageBitmap(bmpS);
+						imageS.setOnLongClickListener(new OnLongClickListener() {
+
+							@Override
+							public boolean onLongClick(View v) {
+								AlertDialog.Builder alertDialogBuilderDelete = new AlertDialog.Builder(
+										ItemsActivity.this);
+
+								// set title
+								alertDialogBuilderDelete
+										.setTitle("Delete Image");
+
+								// set dialog message
+								alertDialogBuilderDelete
+										.setMessage("Delete this image?")
+										.setCancelable(false)
+										.setPositiveButton(
+												"Yes",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, close
+														// current activity
+														File toBeDeleted = new File(
+																FilePathStringsS[arg2]);
+
+														deleteImage(toBeDeleted);
+														;
+													}
+												})
+
+										.setNegativeButton(
+												"No!",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, just close
+														// the dialog box and do
+														// nothing
+														dialog.cancel();
+													}
+												});
+
+								// create alert dialog
+								AlertDialog alertDialogDelete = alertDialogBuilderDelete
+										.create();
+
+								// show it
+								alertDialogDelete.show();
+
+								return true;
+
+							}
+						});
+
+						dialogS.show();
+					} catch (OutOfMemoryError e) {
+
+						e.printStackTrace();
+						if (bmpS != null && bmpS.isRecycled()) {
+							bmpS.recycle();
+							bmpS = null;
+						}
+					}
+				}
+			});
+
+			// /////
+			adapterTrousers = new ImageAdapterTrouser(this,
+					FilePathStringsTrousers, FileNameStringsTrousers);
+
+			galleryTrousers.setSpacing(3);
+			galleryTrousers.setAdapter(adapterTrousers);
+			galleryTrousers.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					final Dialog dialogTr = new Dialog(ItemsActivity.this);
+					try {
+						dialogTr.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialogTr.getWindow().setBackgroundDrawableResource(
+								android.R.color.transparent);
+						dialogTr.setContentView(R.layout.zoom_zoom);
+						ImageView imageTr = (ImageView) dialogTr
+								.findViewById(R.id.imageView1);
+
+						bmpTr = BitmapFactory
+								.decodeFile(FilePathStringsTrousers[arg2]);
+						// Bitmap bmpShoe =
+						// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
+						imageTr.setImageBitmap(bmpTr);
+						imageTr.setOnLongClickListener(new OnLongClickListener() {
+
+							@Override
+							public boolean onLongClick(View v) {
+								AlertDialog.Builder alertDialogBuilderD = new AlertDialog.Builder(
+										ItemsActivity.this);
+
+								// set title
+								alertDialogBuilderD.setTitle("Delete Image");
+
+								// set dialog message
+								alertDialogBuilderD
+										.setMessage("Delete this image?")
+										.setCancelable(false)
+										.setPositiveButton(
+												"Yes",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, close
+														// current activity
+														File toBeDeleted = new File(
+																FilePathStringsTrousers[arg2]);
+
+														deleteImage(toBeDeleted);
+														;
+													}
+												})
+
+										.setNegativeButton(
+												"No!",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, just close
+														// the dialog box and do
+														// nothing
+														dialog.cancel();
+													}
+												});
+
+								// create alert dialog
+								AlertDialog alertDialogD = alertDialogBuilderD
+										.create();
+
+								// show it
+								alertDialogD.show();
+
+								return true;
+
+							}
+						});
+
+						dialogTr.show();
+					} catch (OutOfMemoryError e) {
+
+						e.printStackTrace();
+						if (bmpTr != null && bmpTr.isRecycled()) {
+							bmpTr.recycle();
+							bmpTr = null;
+						}
+					}
+				}
+			});
+
+			// ///////
+			adapterTops = new ImageAdapterTops(this, FilePathStringsTops,
+					FileNameStringsTops);
+			galleryTops.setSpacing(3);
+			galleryTops.setAdapter(adapterTops);
+			galleryTops.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					final Dialog dialogTop = new Dialog(ItemsActivity.this);
+					try {
+						dialogTop.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialogTop.getWindow().setBackgroundDrawableResource(
+								android.R.color.transparent);
+						dialogTop.setContentView(R.layout.zoom_zoom);
+						ImageView imageTop = (ImageView) dialogTop
+								.findViewById(R.id.imageView1);
+
+						bmpTop = BitmapFactory
+								.decodeFile(FilePathStringsTops[arg2]);
+						// Bitmap bmpShoe =
+						// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
+						imageTop.setImageBitmap(bmpTop);
+						imageTop.setOnLongClickListener(new OnLongClickListener() {
+
+							@Override
+							public boolean onLongClick(View v) {
+								AlertDialog.Builder alertDialogBuilderDel = new AlertDialog.Builder(
+										ItemsActivity.this);
+
+								// set title
+								alertDialogBuilderDel.setTitle("Delete Image");
+
+								// set dialog message
+								alertDialogBuilderDel
+										.setMessage("Delete this image?")
+										.setCancelable(false)
+										.setPositiveButton(
+												"Yes",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, close
+														// current activity
+														File toBeDeleted = new File(
+																FilePathStringsTops[arg2]);
+
+														deleteImage(toBeDeleted);
+														;
+													}
+												})
+
+										.setNegativeButton(
+												"No!",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, just close
+														// the dialog box and do
+														// nothing
+														dialog.cancel();
+													}
+												});
+
+								// create alert dialog
+								AlertDialog alertDialogDel = alertDialogBuilderDel
+										.create();
+
+								// show it
+								alertDialogDel.show();
+
+								return true;
+
+							}
+						});
+
+						dialogTop.show();
+					} catch (OutOfMemoryError e) {
+
+						e.printStackTrace();
+						if (bmpTop != null && bmpTop.isRecycled()) {
+							bmpTop.recycle();
+							bmpTop = null;
+						}
+					}
+				}
+			});
+
+			// //
+			adapterSkirts = new ImageAdpaterSkirts(this, FilePathStringsSkirts,
+					FileNameStringsSkirts);
+			gallerySkirts.setSpacing(3);
+			gallerySkirts.setAdapter(adapterSkirts);
+			gallerySkirts.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						final int arg2, long arg3) {
+					final Dialog dialogSk = new Dialog(ItemsActivity.this);
+					try {
+						dialogSk.requestWindowFeature(Window.FEATURE_NO_TITLE);
+						dialogSk.getWindow().setBackgroundDrawableResource(
+								android.R.color.transparent);
+						dialogSk.setContentView(R.layout.zoom_zoom);
+						ImageView imageSk = (ImageView) dialogSk
+								.findViewById(R.id.imageView1);
+
+						Bitmap bmpSk = BitmapFactory
+								.decodeFile(FilePathStringsSkirts[arg2]);
+						// Bitmap bmpShoe =
+						// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
+						imageSk.setImageBitmap(bmpSk);
+						imageSk.setOnLongClickListener(new OnLongClickListener() {
+
+							@Override
+							public boolean onLongClick(View v) {
+								AlertDialog.Builder alertDialogBuilderDele = new AlertDialog.Builder(
+										ItemsActivity.this);
+
+								// set title
+								alertDialogBuilderDele.setTitle("Delete Image");
+
+								// set dialog message
+								alertDialogBuilderDele
+										.setMessage("Delete this image?")
+										.setCancelable(false)
+										.setPositiveButton(
+												"Yes",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, close
+														// current activity
+														File toBeDeleted = new File(
+																FilePathStringsSkirts[arg2]);
+
+														deleteImage(toBeDeleted);
+														;
+													}
+												})
+
+										.setNegativeButton(
+												"No!",
+												new DialogInterface.OnClickListener() {
+													public void onClick(
+															DialogInterface dialog,
+															int id) {
+														// if this button is
+														// clicked, just close
+														// the dialog box and do
+														// nothing
+														dialog.cancel();
+													}
+												});
+
+								// create alert dialog
+								AlertDialog alertDialogDele = alertDialogBuilderDele
+										.create();
+
+								// show it
+								alertDialogDele.show();
+
+								return true;
+
+							}
+						});
+
+						dialogSk.show();
+					} catch (OutOfMemoryError e) {
+
+						e.printStackTrace();
+						if (bmpSk != null && bmpSk.isRecycled()) {
+							bmpSk.recycle();
+							bmpSk = null;
+						}
+					}
+				}
+
+			});
 		}
-
-		showBags();
-		showShoes();
-		showTrousers();
-		showTops();
-		showSkirts();
-
-		adapter = new ImageAdapter(this, FilePathStrings, FileNameStrings);
-		gallery.setSpacing(3);
-		gallery.setAdapter(adapter);
-		gallery.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					final int arg2, long arg3) {
-				final Dialog dialog = new Dialog(ItemsActivity.this);
-				try {
-					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialog.getWindow().setBackgroundDrawableResource(
-							android.R.color.transparent);
-					dialog.setContentView(R.layout.zoom_zoom);
-					ImageView imageview = (ImageView) dialog
-							.findViewById(R.id.imageView1);
-
-					Bitmap bmp = BitmapFactory
-							.decodeFile(FilePathStrings[arg2]);
-					// Bitmap bmpShoe =
-					// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
-					imageview.setImageBitmap(bmp);
-					imageview.setOnLongClickListener(new OnLongClickListener() {
-
-						@Override
-						public boolean onLongClick(View v) {
-							AlertDialog.Builder alertDialogBuilderDelete = new AlertDialog.Builder(
-									ItemsActivity.this);
-
-							// set title
-							alertDialogBuilderDelete.setTitle("Delete Image");
-
-							// set dialog message
-							alertDialogBuilderDelete
-									.setMessage("Delete this image?")
-									.setCancelable(false)
-									.setPositiveButton(
-											"Yes",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, close
-													// current activity
-													File toBeDeleted = new File(
-															FilePathStrings[arg2]);
-
-													deleteImage(toBeDeleted);
-													;
-												}
-											})
-
-									.setNegativeButton(
-											"No!",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, just close
-													// the dialog box and do
-													// nothing
-													dialog.cancel();
-												}
-											});
-
-							// create alert dialog
-							AlertDialog alertDialogDelete = alertDialogBuilderDelete
-									.create();
-
-							// show it
-							alertDialogDelete.show();
-
-							return true;
-
-						}
-					});
-
-					dialog.show();
-				} catch (OutOfMemoryError e) {
-
-					e.printStackTrace();
-					if (bmp != null && bmp.isRecycled()) {
-						bmp.recycle();
-						bmp = null;
-					}
-				}
-			}
-		});
-
-		// //////////////
-		adaptershoes = new ImageAdapterShoe(this, FilePathStringsS,
-				FileNameStringsS);
-		galleryShoes.setSpacing(3);
-		galleryShoes.setAdapter(adaptershoes);
-		galleryShoes.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
-					long arg3) {
-				final Dialog dialogS = new Dialog(ItemsActivity.this);
-				try {
-					dialogS.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialogS.getWindow().setBackgroundDrawableResource(
-							android.R.color.transparent);
-					dialogS.setContentView(R.layout.zoom_zoom);
-					ImageView imageS = (ImageView) dialogS
-							.findViewById(R.id.imageView1);
-
-					Bitmap bmpS = BitmapFactory
-							.decodeFile(FilePathStringsS[arg2]);
-					imageS.setImageBitmap(bmpS);
-					imageS.setOnLongClickListener(new OnLongClickListener() {
-
-						@Override
-						public boolean onLongClick(View v) {
-							AlertDialog.Builder alertDialogBuilderDelete = new AlertDialog.Builder(
-									ItemsActivity.this);
-
-							// set title
-							alertDialogBuilderDelete.setTitle("Delete Image");
-
-							// set dialog message
-							alertDialogBuilderDelete
-									.setMessage("Delete this image?")
-									.setCancelable(false)
-									.setPositiveButton(
-											"Yes",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, close
-													// current activity
-													File toBeDeleted = new File(
-															FilePathStringsS[arg2]);
-
-													deleteImage(toBeDeleted);
-													;
-												}
-											})
-
-									.setNegativeButton(
-											"No!",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, just close
-													// the dialog box and do
-													// nothing
-													dialog.cancel();
-												}
-											});
-
-							// create alert dialog
-							AlertDialog alertDialogDelete = alertDialogBuilderDelete
-									.create();
-
-							// show it
-							alertDialogDelete.show();
-
-							return true;
-
-						}
-					});
-
-					dialogS.show();
-				} catch (OutOfMemoryError e) {
-
-					e.printStackTrace();
-					if (bmpS != null && bmpS.isRecycled()) {
-						bmpS.recycle();
-						bmpS = null;
-					}
-				}
-			}
-		});
-
-		// /////
-		adapterTrousers = new ImageAdapterTrouser(this,
-				FilePathStringsTrousers, FileNameStringsTrousers);
-
-		galleryTrousers.setSpacing(3);
-		galleryTrousers.setAdapter(adapterTrousers);
-		galleryTrousers.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
-					long arg3) {
-				final Dialog dialogTr = new Dialog(ItemsActivity.this);
-				try {
-					dialogTr.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialogTr.getWindow().setBackgroundDrawableResource(
-							android.R.color.transparent);
-					dialogTr.setContentView(R.layout.zoom_zoom);
-					ImageView imageTr = (ImageView) dialogTr
-							.findViewById(R.id.imageView1);
-
-					bmpTr = BitmapFactory
-							.decodeFile(FilePathStringsTrousers[arg2]);
-					// Bitmap bmpShoe =
-					// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
-					imageTr.setImageBitmap(bmpTr);
-					imageTr.setOnLongClickListener(new OnLongClickListener() {
-
-						@Override
-						public boolean onLongClick(View v) {
-							AlertDialog.Builder alertDialogBuilderD = new AlertDialog.Builder(
-									ItemsActivity.this);
-
-							// set title
-							alertDialogBuilderD.setTitle("Delete Image");
-
-							// set dialog message
-							alertDialogBuilderD
-									.setMessage("Delete this image?")
-									.setCancelable(false)
-									.setPositiveButton(
-											"Yes",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, close
-													// current activity
-													File toBeDeleted = new File(
-															FilePathStringsTrousers[arg2]);
-
-													deleteImage(toBeDeleted);
-													;
-												}
-											})
-
-									.setNegativeButton(
-											"No!",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, just close
-													// the dialog box and do
-													// nothing
-													dialog.cancel();
-												}
-											});
-
-							// create alert dialog
-							AlertDialog alertDialogD = alertDialogBuilderD
-									.create();
-
-							// show it
-							alertDialogD.show();
-
-							return true;
-
-						}
-					});
-
-					dialogTr.show();
-				} catch (OutOfMemoryError e) {
-
-					e.printStackTrace();
-					if (bmpTr != null && bmpTr.isRecycled()) {
-						bmpTr.recycle();
-						bmpTr = null;
-					}
-				}
-			}
-		});
-
-		// ///////
-		adapterTops = new ImageAdapterTops(this, FilePathStringsTops,
-				FileNameStringsTops);
-		galleryTops.setSpacing(3);
-		galleryTops.setAdapter(adapterTops);
-		galleryTops.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
-					long arg3) {
-				final Dialog dialogTop = new Dialog(ItemsActivity.this);
-				try {
-					dialogTop.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialogTop.getWindow().setBackgroundDrawableResource(
-							android.R.color.transparent);
-					dialogTop.setContentView(R.layout.zoom_zoom);
-					ImageView imageTop = (ImageView) dialogTop
-							.findViewById(R.id.imageView1);
-
-					bmpTop = BitmapFactory
-							.decodeFile(FilePathStringsTops[arg2]);
-					// Bitmap bmpShoe =
-					// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
-					imageTop.setImageBitmap(bmpTop);
-					imageTop.setOnLongClickListener(new OnLongClickListener() {
-
-						@Override
-						public boolean onLongClick(View v) {
-							AlertDialog.Builder alertDialogBuilderDel = new AlertDialog.Builder(
-									ItemsActivity.this);
-
-							// set title
-							alertDialogBuilderDel.setTitle("Delete Image");
-
-							// set dialog message
-							alertDialogBuilderDel
-									.setMessage("Delete this image?")
-									.setCancelable(false)
-									.setPositiveButton(
-											"Yes",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, close
-													// current activity
-													File toBeDeleted = new File(
-															FilePathStringsTops[arg2]);
-
-													deleteImage(toBeDeleted);
-													;
-												}
-											})
-
-									.setNegativeButton(
-											"No!",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, just close
-													// the dialog box and do
-													// nothing
-													dialog.cancel();
-												}
-											});
-
-							// create alert dialog
-							AlertDialog alertDialogDel = alertDialogBuilderDel
-									.create();
-
-							// show it
-							alertDialogDel.show();
-
-							return true;
-
-						}
-					});
-
-					dialogTop.show();
-				} catch (OutOfMemoryError e) {
-
-					e.printStackTrace();
-					if (bmpTop != null && bmpTop.isRecycled()) {
-						bmpTop.recycle();
-						bmpTop = null;
-					}
-				}
-			}
-		});
-
-		// //
-		adapterSkirts = new ImageAdpaterSkirts(this, FilePathStringsSkirts,
-				FileNameStringsSkirts);
-		gallerySkirts.setSpacing(3);
-		gallerySkirts.setAdapter(adapterSkirts);
-		gallerySkirts.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, final int arg2,
-					long arg3) {
-				final Dialog dialogSk = new Dialog(ItemsActivity.this);
-				try {
-					dialogSk.requestWindowFeature(Window.FEATURE_NO_TITLE);
-					dialogSk.getWindow().setBackgroundDrawableResource(
-							android.R.color.transparent);
-					dialogSk.setContentView(R.layout.zoom_zoom);
-					ImageView imageSk = (ImageView) dialogSk
-							.findViewById(R.id.imageView1);
-
-					Bitmap bmpSk = BitmapFactory
-							.decodeFile(FilePathStringsSkirts[arg2]);
-					// Bitmap bmpShoe =
-					// BitmapFactory.decodeFile(FilePathStringsS[arg2]);
-					imageSk.setImageBitmap(bmpSk);
-					imageSk.setOnLongClickListener(new OnLongClickListener() {
-
-						@Override
-						public boolean onLongClick(View v) {
-							AlertDialog.Builder alertDialogBuilderDele= new AlertDialog.Builder(
-									ItemsActivity.this);
-
-							// set title
-							alertDialogBuilderDele.setTitle("Delete Image");
-
-							// set dialog message
-							alertDialogBuilderDele
-									.setMessage("Delete this image?")
-									.setCancelable(false)
-									.setPositiveButton(
-											"Yes",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, close
-													// current activity
-													File toBeDeleted = new File(
-															FilePathStringsSkirts[arg2]);
-
-													deleteImage(toBeDeleted);
-													;
-												}
-											})
-
-									.setNegativeButton(
-											"No!",
-											new DialogInterface.OnClickListener() {
-												public void onClick(
-														DialogInterface dialog,
-														int id) {
-													// if this button is
-													// clicked, just close
-													// the dialog box and do
-													// nothing
-													dialog.cancel();
-												}
-											});
-
-							// create alert dialog
-							AlertDialog alertDialogDele = alertDialogBuilderDele
-									.create();
-
-							// show it
-							alertDialogDele.show();
-
-							return true;
-
-						}
-					});
-
-					dialogSk.show();
-				} catch (OutOfMemoryError e) {
-
-					e.printStackTrace();
-					if (bmpSk != null && bmpSk.isRecycled()) {
-						bmpSk.recycle();
-						bmpSk = null;
-					}
-				}
-			}
-
-		});
 
 	}
 
