@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -94,8 +95,25 @@ public class ItemsActivity extends Activity {
 
 		if (!Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
-			Toast.makeText(this, "Error! No SDCARD Found!", Toast.LENGTH_LONG)
-					.show();
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("SD Card not available");
+			builder.setMessage("This app requires you have an SD Card installed on the device... It appears there is none. Please insert one and restart the application. \nIf there is an SD, please ensure it is mounted properly.");
+			builder.setNeutralButton("Okay", new OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					finish();
+					dialog.cancel();
+				}
+			});
+
+			builder.create().show();
+			Log.e("Mavazi",
+					"No SD Card found.. or maybe it wasn't mounted properly..?");
+			// Toast.makeText(this, "Error! No SDCARD Found!",
+			// Toast.LENGTH_LONG)
+			// .show();
 		} else {
 			BAG_DIR = Environment.getExternalStorageDirectory()
 					+ File.separator + "manguoz/bags";
